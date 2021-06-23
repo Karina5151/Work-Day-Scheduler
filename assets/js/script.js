@@ -3,24 +3,22 @@
 var today = moment();
 $("#currentDay").text (today.format("dddd, MMMM Do"));
 
-// set time block values in an array
-var time = ["9", "10", "11", "12", "13", "14", "15", "16", "17"]
 
-// call to pull up local storage items
+// call to retrieve data from local storage
 var scheduleArray = JSON.parse(localStorage.getItem("scheduleStorage"));
 console.log(scheduleArray);
   if (scheduleArray) {
     scheduleArray.forEach(function(input) {
-      $(".time-block").each (function(index) {
-        if (input.time === index.id) {
-          index.innerHTML = input.events 
+      console.log(input)
+      $(".time-block").each(function(index) {
+        var textarea = $(this).children("textarea")[0];
+        if (input.time == $(textarea).attr("id")) {
+          $(textarea).val(input.events);
         }
       })
     });
-}
+} // array of time block time values and event spaces to hook into
   else {
-    console.log("working?")
-    // define all time blocks individually
     var scheduleArray = [ 
       { time: "9", events: "", },
       { time: "10", events: "", },
@@ -33,6 +31,30 @@ console.log(scheduleArray);
       { time: "5", events: "", },
       ]
 } 
+
+// function to save text input to local storage
+$(".saveBtn").click(function(event) {
+  event.preventDefault();
+  var txtarea = $(this).closest(".time-block").children("textarea")[0];
+  var currHour = $(txtarea).attr("id");
+  var currValue = $(txtarea).val();
+  
+  // find the one item in the array that's changing
+  scheduleArray.forEach( function(item){
+    if( item.time == currHour ){
+      item.events = currValue
+    }
+  })
+  // save the changed/new item to local storage in that specific textarea
+  localStorage.setItem("scheduleStorage", JSON.stringify(scheduleArray));
+})
+
+
+
+
+
+// set time block values in an array for color changer
+var time = ["9", "10", "11", "12", "13", "14", "15", "16", "17"]
 
 // update the time block colors based on the time of day
 var keepTime = function() {
@@ -54,21 +76,5 @@ keepTime();
 
 
 
-// function to save input to local storage
-$(".saveBtn").click (function(event) {
-event.preventDefault()
-    $("textarea").each (function(index, value) {
-    var timeInput = $(value).attr("id")
-    var plannerInput = $(value).val().trim();
-    console.log(scheduleArray);
-    for (let i = 0; i < scheduleArray.length; i++) {
-      if (timeInput === scheduleArray[i].time) {
-        scheduleArray[i].events = plannerInput;
-      }
-    }
-    console.log(scheduleArray);
-    localStorage.setItem("scheduleStorage", JSON.stringify(scheduleArray));
-     console.log(scheduleArray);
-  })
-})
+
   
