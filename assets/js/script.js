@@ -6,10 +6,10 @@ $("#currentDay").text (today.format("dddd, MMMM Do"));
 
 // call to retrieve data from local storage
 var scheduleArray = JSON.parse(localStorage.getItem("scheduleStorage"));
-console.log(scheduleArray);
+// console.log(scheduleArray);
   if (scheduleArray) {
     scheduleArray.forEach(function(input) {
-      console.log(input)
+      // console.log(input)
       $(".time-block").each(function(index) {
         var textarea = $(this).children("textarea")[0];
         if (input.time == $(textarea).attr("id")) {
