@@ -27,25 +27,27 @@ var keepTime = function() {
 keepTime();
 
 // define all time blocks individually
-var hour9  = $("#9");
-var hour10 = $("#10");
-var hour11 = $("#11");
-var hour12 = $("#12");
-var hour1  = $("#13");
-var hour2  = $("#14");
-var hour3  = $("#15");
-var hour4  = $("#16");
-var hour5  = $("#17");
-
+var scheduleArray = ["9", "10", "11", "12", "13", "14", "15", "16", "17"]
+var scheduleTemplate = ["", "", "", "", "", "", "", "", ""]
 
 // function to save input to local storage
-$(".saveBtn").click(function) {
-    $(".time-block").each (function {
-    var timeInput = $(this).parent().attr("id");
-    var plannerInput = $(".textarea").val();
+$(".saveBtn").click (function() {
+  console.log("hello");
+    $("textarea").each (function(index, value) {
+      console.log(value);
+    var timeInput = $(value).attr("id")
+    var plannerInput = $(value).val();
     localStorage.setItem(timeInput, plannerInput);
      console.log(timeInput, plannerInput);
   })
-}
+})
   
+// call to pull up local storage items
+var savedInput = localStorage.getItem("schedule");
+if (savedInput) {
+  scheduleTemplate = savedInput;
+  rerenderThePage();
+}
 
+scheduleItemsStored
+for loop
